@@ -1,0 +1,1819 @@
+{
+  "info": {
+    "name": "Clinic Backend API",
+    "description": "Multi-clinic, multi-speciality clinic system backend. Speciality-first booking flow + payment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "specialityId",
+      "value": ""
+    },
+    {
+      "key": "clinicId",
+      "value": ""
+    },
+    {
+      "key": "doctorId",
+      "value": ""
+    },
+    {
+      "key": "slotId",
+      "value": ""
+    },
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "appointmentId",
+      "value": ""
+    },
+    {
+      "key": "paymentId",
+      "value": ""
+    },
+    {
+      "key": "prescriptionId",
+      "value": ""
+    },
+    {
+      "key": "videoId",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register (patient)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Patient\",\n  \"email\": \"patient1@example.com\",\n  \"phone\": \"9990000001\",\n  \"password\": \"Passw0rd!123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json().data;",
+                  "  pm.collectionVariables.set('accessToken', data.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', data.refreshToken);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"superadmin@example.com\",\n  \"password\": \"Passw0rd!123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const data = pm.response.json().data;",
+                  "  pm.collectionVariables.set('accessToken', data.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', data.refreshToken);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/refresh",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Request OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/otp/request",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"9990000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/otp/verify",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"9990000001\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me"
+          }
+        },
+        {
+          "name": "Create Staff (doctor/receptionist/clinic_admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/staff",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dr. Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phone\": \"9990000002\",\n  \"password\": \"Passw0rd!123\",\n  \"role\": \"doctor\",\n  \"clinics\": [\"{{clinicId}}\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Specialities",
+      "item": [
+        {
+          "name": "Create Speciality",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/specialities",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pediatrics\",\n  \"slug\": \"pediatrics\",\n  \"description\": \"Child healthcare\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('specialityId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Specialities",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/specialities"
+          }
+        },
+        {
+          "name": "Get Speciality",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/specialities/{{specialityId}}"
+          }
+        },
+        {
+          "name": "Update Speciality",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/specialities/{{specialityId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Deactivate Speciality",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/specialities/{{specialityId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clinics",
+      "item": [
+        {
+          "name": "Create Clinic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/clinics",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sunrise Clinic - Downtown\",\n  \"address\": {\n    \"line1\": \"12 MG Road\",\n    \"city\": \"Delhi\",\n    \"state\": \"Delhi\",\n    \"pincode\": \"110001\"\n  },\n  \"phone\": \"9990000010\",\n  \"email\": \"downtown@sunrise.clinic\",\n  \"specialities\": [\"{{specialityId}}\"],\n  \"seo\": {\n    \"metaTitle\": \"Sunrise Clinic Downtown | Pediatric & Gynecology Care\",\n    \"metaDescription\": \"Book an appointment at Sunrise Clinic Downtown for pediatric and gynecology consultations.\",\n    \"metaKeywords\": \"pediatric clinic delhi, gynecologist delhi\",\n    \"canonicalUrl\": \"https://www.clinic.example.com/clinics/downtown\"\n  }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('clinicId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Clinics",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/clinics?speciality={{specialityId}}"
+          }
+        },
+        {
+          "name": "Get Clinic",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/clinics/{{clinicId}}"
+          }
+        },
+        {
+          "name": "Update Clinic",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/clinics/{{clinicId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"9990000099\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Assign Specialities to Clinic",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/clinics/{{clinicId}}/specialities",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specialities\": [\"{{specialityId}}\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Deactivate Clinic",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/clinics/{{clinicId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Doctors",
+      "item": [
+        {
+          "name": "Create Doctor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/doctors",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user\": \"REPLACE_WITH_USER_ID\",\n  \"name\": \"Dr. Jane Doe\",\n  \"speciality\": \"{{specialityId}}\",\n  \"clinics\": [\"{{clinicId}}\"],\n  \"qualification\": \"MBBS, MD Pediatrics\",\n  \"experienceYears\": 8,\n  \"consultationFee\": 500,\n  \"clinicTimings\": [\n    {\n      \"clinic\": \"{{clinicId}}\",\n      \"startTime\": \"09:00\",\n      \"endTime\": \"17:00\",\n      \"slotDurationMinutes\": 15,\n      \"workingDays\": [1,2,3,4,5,6]\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('doctorId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Doctors",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/doctors?speciality={{specialityId}}&clinic={{clinicId}}"
+          }
+        },
+        {
+          "name": "Get Doctor",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/doctors/{{doctorId}}"
+          }
+        },
+        {
+          "name": "Update Doctor",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/doctors/{{doctorId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"consultationFee\": 600\n}"
+            }
+          }
+        },
+        {
+          "name": "Deactivate Doctor",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/doctors/{{doctorId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Slots",
+      "item": [
+        {
+          "name": "Generate Slots",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/slots/generate",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": \"{{doctorId}}\",\n  \"clinicId\": \"{{clinicId}}\",\n  \"startDate\": \"2026-09-15\",\n  \"endDate\": \"2026-09-21\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const arr = pm.response.json().data;",
+                  "  if (arr && arr.length) pm.collectionVariables.set('slotId', arr[0]._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Check Availability",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/slots/availability?clinicId={{clinicId}}&doctorId={{doctorId}}&date=2026-09-15"
+          }
+        },
+        {
+          "name": "Block Slot",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/slots/{{slotId}}/block",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Doctor on leave\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Unblock Slot",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/slots/{{slotId}}/unblock"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Patients",
+      "item": [
+        {
+          "name": "Create Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/patients",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Baby Aarav\",\n  \"dob\": \"2023-04-10\",\n  \"gender\": \"male\",\n  \"contact\": { \"phone\": \"9990000001\" },\n  \"guardianDetails\": { \"name\": \"Rita Sharma\", \"relation\": \"mother\", \"phone\": \"9990000001\" },\n  \"extraDetails\": { \"birthWeightKg\": 3.2 }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('patientId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Patients",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/patients"
+          }
+        },
+        {
+          "name": "Get Patient",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/patients/{{patientId}}"
+          }
+        },
+        {
+          "name": "Update Patient",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/patients/{{patientId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extraDetails\": { \"allergies\": \"none\" }\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Document to Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/patients/{{patientId}}/docs",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Blood report\",\n  \"url\": \"https://example.com/report.pdf\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Appointments (Booking Flow)",
+      "item": [
+        {
+          "name": "Book Appointment - Pay at Clinic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/appointments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specialityId\": \"{{specialityId}}\",\n  \"clinicId\": \"{{clinicId}}\",\n  \"doctorId\": \"{{doctorId}}\",\n  \"slotId\": \"{{slotId}}\",\n  \"patient\": { \"_id\": \"{{patientId}}\" },\n  \"paymentMethod\": \"pay_at_clinic\",\n  \"symptoms\": \"Fever, cough for 2 days\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const data = pm.response.json().data;",
+                  "  pm.collectionVariables.set('appointmentId', data.appointment._id);",
+                  "  pm.collectionVariables.set('paymentId', data.payment._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Book Appointment - Pay Online",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/appointments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specialityId\": \"{{specialityId}}\",\n  \"clinicId\": \"{{clinicId}}\",\n  \"doctorId\": \"{{doctorId}}\",\n  \"slotId\": \"{{slotId}}\",\n  \"patient\": { \"_id\": \"{{patientId}}\" },\n  \"paymentMethod\": \"pay_online\",\n  \"symptoms\": \"Routine checkup\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Appointments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/appointments?clinic={{clinicId}}"
+          }
+        },
+        {
+          "name": "Get Appointment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/appointments/{{appointmentId}}"
+          }
+        },
+        {
+          "name": "Reschedule Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/appointments/{{appointmentId}}/reschedule",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newSlotId\": \"REPLACE_WITH_NEW_SLOT_ID\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/appointments/{{appointmentId}}/cancel",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Patient requested cancellation\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Appointment Status (consult)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/appointments/{{appointmentId}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"diagnosis\": \"Common cold\",\n  \"doctorNotes\": \"Rest and fluids\",\n  \"followUpDate\": \"2026-09-25\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Get Payment by Appointment",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payments/appointment/{{appointmentId}}"
+          }
+        },
+        {
+          "name": "Webhook - Razorpay (simulate success)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-razorpay-signature",
+                "value": "REPLACE_WITH_VALID_HMAC_SIGNATURE"
+              }
+            ],
+            "url": "{{baseUrl}}/payments/webhook/razorpay",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"payment.captured\",\n  \"payload\": {\n    \"order\": { \"entity\": { \"id\": \"REPLACE_WITH_GATEWAY_ORDER_ID\" } },\n    \"payment\": { \"entity\": { \"id\": \"pay_test_123\" } }\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark Collected at Clinic",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/payments/{{paymentId}}/collect"
+          }
+        },
+        {
+          "name": "Refund Payment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/appointment/{{appointmentId}}/refund"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prescriptions",
+      "item": [
+        {
+          "name": "Create Prescription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/prescriptions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentId\": \"{{appointmentId}}\",\n  \"diagnosis\": \"Common cold\",\n  \"medicines\": [\n    { \"name\": \"Paracetamol\", \"dosage\": \"250mg\", \"frequency\": \"twice daily\", \"durationDays\": 3, \"instructions\": \"After food\" }\n  ],\n  \"generalInstructions\": \"Plenty of fluids and rest\",\n  \"followUpDate\": \"2026-09-25\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('prescriptionId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Prescription",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/prescriptions/{{prescriptionId}}"
+          }
+        },
+        {
+          "name": "List Prescriptions by Patient",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/prescriptions/patient/{{patientId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Create Video",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/videos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Post-treatment care basics\",\n  \"youtubeUrl\": \"https://youtube.com/watch?v=example\",\n  \"category\": \"post_treatment_care\",\n  \"speciality\": \"{{specialityId}}\",\n  \"description\": \"What to do after your child's treatment\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.collectionVariables.set('videoId', pm.response.json().data._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Videos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/videos?category=post_treatment_care"
+          }
+        },
+        {
+          "name": "Assign Video to Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/videos/{{videoId}}/assign",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Video",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/videos/{{videoId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Deactivate Video",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/videos/{{videoId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboards",
+      "item": [
+        {
+          "name": "Clinic Dashboard",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/dashboard/clinic"
+          }
+        },
+        {
+          "name": "Global Dashboard (superadmin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/dashboard/global"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Website & CMS Management",
+      "item": [
+        {
+          "name": "Categories",
+          "item": [
+            {
+              "name": "List Categories",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/categories"
+              }
+            },
+            {
+              "name": "Get Category",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/categories/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Create Category",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/categories",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Parenting Tips\",\n  \"slug\": \"parenting-tips\",\n  \"type\": \"blog\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Update Category",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/categories/REPLACE_ID",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"Updated\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Deactivate Category",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/categories/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Banners",
+          "item": [
+            {
+              "name": "Active Banners (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/banners/active?placement=home_hero"
+              }
+            },
+            {
+              "name": "List Banners",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/banners"
+              }
+            },
+            {
+              "name": "Get Banner",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/banners/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Create Banner",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/banners",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Book your checkup today\",\n  \"image\": \"https://via.placeholder.com/1600x600\",\n  \"link\": \"/book-appointment\",\n  \"buttonText\": \"Book Now\",\n  \"placement\": \"home_hero\",\n  \"order\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "Update Banner",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/banners/REPLACE_ID",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": false\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Banner",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/banners/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Popups",
+          "item": [
+            {
+              "name": "Active Popups (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/popups/active?page=home"
+              }
+            },
+            {
+              "name": "List Popups",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/popups"
+              }
+            },
+            {
+              "name": "Create Popup",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/popups",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Limited Time Offer\",\n  \"content\": \"Get 10% off with code WELCOME10\",\n  \"delaySeconds\": 3,\n  \"targetPages\": [\"home\"]\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Popup",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/popups/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Popup",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/popups/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": false\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Popup",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/popups/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Testimonials",
+          "item": [
+            {
+              "name": "List Testimonials",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/testimonials"
+              }
+            },
+            {
+              "name": "Create Testimonial",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/testimonials",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Rita Sharma\",\n  \"designation\": \"Parent\",\n  \"rating\": 5,\n  \"message\": \"Excellent care for my son.\",\n  \"clinic\": \"{{clinicId}}\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Testimonial",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/testimonials/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Testimonial",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/testimonials/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rating\": 4\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Testimonial",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/testimonials/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Coupons",
+          "item": [
+            {
+              "name": "Create Coupon",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/coupons",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"WELCOME10\",\n  \"description\": \"10% off first consultation\",\n  \"discountType\": \"percentage\",\n  \"discountValue\": 10,\n  \"maxDiscountAmount\": 100,\n  \"usageLimitPerUser\": 1,\n  \"validTo\": \"2026-12-31\"\n}"
+                }
+              }
+            },
+            {
+              "name": "List Coupons",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/coupons"
+              }
+            },
+            {
+              "name": "Validate Coupon",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/coupons/validate",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"WELCOME10\",\n  \"amount\": 500,\n  \"clinicId\": \"{{clinicId}}\",\n  \"specialityId\": \"{{specialityId}}\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Book Appointment with Coupon",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/appointments",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"specialityId\": \"{{specialityId}}\",\n  \"clinicId\": \"{{clinicId}}\",\n  \"doctorId\": \"{{doctorId}}\",\n  \"slotId\": \"{{slotId}}\",\n  \"patient\": { \"_id\": \"{{patientId}}\" },\n  \"paymentMethod\": \"pay_at_clinic\",\n  \"couponCode\": \"WELCOME10\",\n  \"symptoms\": \"Routine checkup\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Coupon",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/coupons/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Coupon",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/coupons/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"discountValue\": 15\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Coupon",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/coupons/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "CMS Pages",
+          "item": [
+            {
+              "name": "List CMS Pages",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/cms-pages"
+              }
+            },
+            {
+              "name": "Get by Slug (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/cms-pages/slug/privacy-policy"
+              }
+            },
+            {
+              "name": "Create CMS Page",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/cms-pages",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Terms & Conditions\",\n  \"slug\": \"terms-and-conditions\",\n  \"type\": \"terms_conditions\",\n  \"content\": \"<p>Sample terms content</p>\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get CMS Page",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/cms-pages/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update CMS Page",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/cms-pages/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<p>Updated content</p>\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete CMS Page",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/cms-pages/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Blogs",
+          "item": [
+            {
+              "name": "List Published Blogs (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/blogs"
+              }
+            },
+            {
+              "name": "Get Blog by Slug (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/blogs/slug/REPLACE_SLUG"
+              }
+            },
+            {
+              "name": "Create Blog",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/blogs",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"5 Tips for Newborn Care\",\n  \"slug\": \"5-tips-for-newborn-care\",\n  \"excerpt\": \"Essential newborn care tips\",\n  \"content\": \"<p>Full article content...</p>\",\n  \"speciality\": \"{{specialityId}}\",\n  \"isPublished\": true\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Blog",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/blogs/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Blog",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/blogs/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isPublished\": true\n}"
+                }
+              }
+            },
+            {
+              "name": "Unpublish/Delete Blog",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/blogs/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "FAQs",
+          "item": [
+            {
+              "name": "List FAQs",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/faqs"
+              }
+            },
+            {
+              "name": "Create FAQ",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/faqs",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"question\": \"Do you provide vaccination guidance?\",\n  \"answer\": \"Yes, we do.\",\n  \"speciality\": \"{{specialityId}}\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get FAQ",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/faqs/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update FAQ",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/faqs/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"answer\": \"Updated answer\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete FAQ",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/faqs/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Contact Form",
+          "item": [
+            {
+              "name": "Submit Contact Form (public)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/contact-submissions",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"John Visitor\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"9998887777\",\n  \"subject\": \"General Enquiry\",\n  \"message\": \"What are your clinic timings?\",\n  \"clinicId\": \"{{clinicId}}\"\n}"
+                }
+              }
+            },
+            {
+              "name": "List Submissions",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/contact-submissions"
+              }
+            },
+            {
+              "name": "Respond to Submission",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/contact-submissions/REPLACE_ID/respond",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"responseNote\": \"Replied via email\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Submission (marks read)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/contact-submissions/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Mark Submission as Spam",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/contact-submissions/REPLACE_ID/spam"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Payment Modes",
+          "item": [
+            {
+              "name": "Get Payment Modes (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/payment-modes?clinic={{clinicId}}"
+              }
+            },
+            {
+              "name": "Set Global Payment Modes",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/payment-modes/global",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payAtClinicEnabled\": true,\n  \"payOnlineEnabled\": true\n}"
+                }
+              }
+            },
+            {
+              "name": "Set Clinic Payment Modes",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/payment-modes/clinic/{{clinicId}}",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payAtClinicEnabled\": true,\n  \"payOnlineEnabled\": false\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Header Notifications",
+          "item": [
+            {
+              "name": "Active Notification (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/header-notifications/active"
+              }
+            },
+            {
+              "name": "List Header Notifications",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/header-notifications"
+              }
+            },
+            {
+              "name": "Create Header Notification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/header-notifications",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"message\": \"New patients get 10% off with WELCOME10\",\n  \"bgColor\": \"#0f766e\",\n  \"textColor\": \"#ffffff\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Header Notification",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/header-notifications/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Header Notification",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/header-notifications/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": false\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Header Notification",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/header-notifications/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Trusted Partners / Brands",
+          "item": [
+            {
+              "name": "List Partners",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/partners"
+              }
+            },
+            {
+              "name": "Create Partner",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/partners",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"HealthTrust Labs\",\n  \"logo\": \"https://via.placeholder.com/200x80\",\n  \"type\": \"trusted_partner\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Get Partner",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/partners/REPLACE_ID"
+              }
+            },
+            {
+              "name": "Update Partner",
+              "request": {
+                "method": "PATCH",
+                "url": "{{baseUrl}}/partners/REPLACE_ID",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order\": 2\n}"
+                }
+              }
+            },
+            {
+              "name": "Delete Partner",
+              "request": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/partners/REPLACE_ID"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Website Settings",
+          "item": [
+            {
+              "name": "Get Website Settings (public)",
+              "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/website-settings"
+              }
+            },
+            {
+              "name": "Update Website Settings",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/website-settings",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"siteName\": \"Sunrise Clinic\",\n  \"tagline\": \"Caring for every stage of life\",\n  \"contactEmail\": \"contact@sunrise.clinic\",\n  \"contactPhone\": \"9999000000\",\n  \"branding\": {\n    \"logoHeader\": \"https://cdn.example.com/logo-header.png\",\n    \"logoFooter\": \"https://cdn.example.com/logo-footer.png\",\n    \"logoMobile\": \"https://cdn.example.com/logo-mobile.png\",\n    \"favicon\": \"https://cdn.example.com/favicon.ico\"\n  },\n  \"playStoreUrl\": \"https://play.google.com/store/apps/details?id=com.sunriseclinic\",\n  \"appStoreUrl\": \"https://apps.apple.com/app/sunrise-clinic/id123456789\",\n  \"socialLinks\": {\n    \"facebook\": \"https://facebook.com/sunriseclinic\",\n    \"instagram\": \"https://instagram.com/sunriseclinic\"\n  },\n  \"seo\": {\n    \"metaTitle\": \"Sunrise Clinic | Multi-Speciality Healthcare\",\n    \"metaDescription\": \"Book appointments across pediatrics, gynecology and more at Sunrise Clinic.\",\n    \"metaKeywords\": \"clinic, pediatrics, gynecology, appointment booking\"\n  }\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Appointments Report (JSON)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/appointments?from=2026-09-01&to=2026-09-30"
+          }
+        },
+        {
+          "name": "Appointments Report (CSV)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/appointments?from=2026-09-01&to=2026-09-30&format=csv"
+          }
+        },
+        {
+          "name": "Revenue Report (JSON)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/revenue?from=2026-09-01&to=2026-09-30"
+          }
+        },
+        {
+          "name": "Revenue Report (CSV)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/revenue?from=2026-09-01&to=2026-09-30&format=csv"
+          }
+        },
+        {
+          "name": "Doctor Performance Report",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/doctor-performance?from=2026-09-01&to=2026-09-30"
+          }
+        },
+        {
+          "name": "New Patients Report (superadmin)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/reports/patients?from=2026-09-01&to=2026-09-30"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit Logs",
+      "item": [
+        {
+          "name": "List Audit Logs",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/audit-logs?resourceType=Patient"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SEO & Sitemap",
+      "item": [
+        {
+          "name": "Sitemap.xml (public, cached 1hr)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/sitemap.xml"
+          }
+        },
+        {
+          "name": "Sitemap.xml (force refresh)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/sitemap.xml?refresh=true"
+          }
+        },
+        {
+          "name": "robots.txt (public)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/robots.txt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/health"
+          }
+        }
+      ]
+    }
+  ]
+}

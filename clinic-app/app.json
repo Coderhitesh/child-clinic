@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "HealthBridge",
+    "slug": "healthbridge",
+    "version": "1.0.0",
+    "scheme": "healthbridge",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#0f3d56",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.healthbridge.app",
+      "buildNumber": "1",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "entitlements": { "aps-environment": "development" },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We use your location to show the nearest clinic and sort doctors by how close they are.",
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "package": "com.healthbridge.app",
+      "versionCode": 1,
+      "adaptiveIcon": { "backgroundColor": "#12a89f" },
+      "edgeToEdgeEnabled": true,
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "POST_NOTIFICATIONS",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED"
+      ]
+    },
+    "web": { "bundler": "metro", "output": "static" },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-dev-client",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "We use your location to show the nearest clinic and sort doctors by how close they are."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": { "minSdkVersion": 24, "compileSdkVersion": 35, "targetSdkVersion": 35 },
+          "ios": { "useFrameworks": "static" }
+        }
+      ]
+    ],
+    "extra": {
+      "apiUrl": "http://192.168.1.5:5000/api/v1",
+      "razorpayKeyId": "",
+      "eas": { "projectId": "" }
+    }
+  }
+}
