@@ -49,57 +49,44 @@ function TrustItem({ icon: Icon, label, description, accent = "brand" }) {
 ====================================================== */
 
 function HeroCopy({ hero, compact = false }) {
-  const words = (hero?.title || "").trim().split(" ");
-  const half = Math.ceil(words.length / 2);
-  const titleTop = words.slice(0, half).join(" ");
-  const titleBottom = words.slice(half).join(" ");
-
   return (
     <>
       <div className="flex items-center gap-2.5">
         <span className="h-[3px] w-6 rounded-full bg-clinic-500" />
-        <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-ink-soft sm:text-[10px] lg:text-xs">
-          {hero?.eyebrow || "Healthy kids, brighter tomorrows"}
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink-soft sm:text-[11px] lg:text-xs">
+          Only Medicine • No Therapy • No Exercise
         </p>
       </div>
 
-      {hero?.title && (
-        <h1
-          className={`
-            mt-3 font-extrabold leading-[1.05] tracking-[-0.03em] text-ink
-            ${
-              compact
-                ? "max-w-[260px] text-[24px] sm:max-w-[340px] sm:text-[28px]"
-                : "max-w-[560px] text-[48px] lg:text-[54px]"
-            }
-          `}
-        >
-          {titleTop}
-          {titleBottom && (
-            <>
-              <br />
-              <span className="text-clinic-500">{titleBottom}</span>
-            </>
-          )}
-        </h1>
-      )}
+      <h1
+        className={`
+          mt-3 font-extrabold leading-[1.08] tracking-[-0.03em] text-ink
+          ${
+            compact
+              ? "max-w-[280px] text-[24px] sm:max-w-[340px] sm:text-[28px]"
+              : "max-w-[560px] text-[44px] lg:text-[52px]"
+          }
+        `}
+      >
+        <span className="block text-[#0C3177]">Only Medicine</span>
+        <span className="block text-[#FF4389]">No Therapy</span>
+        <span className="block text-clinic-500">No Exercise</span>
+      </h1>
 
-      {hero?.subtitle && (
-        <p
-          className={`
-            mt-2 text-sm leading-6 text-ink-soft
-            ${
-              compact
-                ? "line-clamp-2 max-w-[250px] text-[12px] leading-5 sm:max-w-[340px] sm:text-[13px]"
-                : "mt-4 max-w-[460px] md:text-base md:leading-8"
-            }
-          `}
-        >
-          {hero.subtitle}
-        </p>
-      )}
+      <p
+        className={`
+          mt-2 text-sm leading-6 text-ink-soft
+          ${
+            compact
+              ? "line-clamp-2 max-w-[250px] text-[12px] leading-5 sm:max-w-[340px] sm:text-[13px]"
+              : "mt-4 max-w-[460px] md:text-base md:leading-8"
+          }
+        `}
+      >
+        {hero?.subtitle || "Dedicated medical care providing results through medication alone, with zero therapy and zero exercise."}
+      </p>
 
-      {hero?.buttonText && hero?.link && (
+      {hero?.buttonText && hero?.link ? (
         <div className={compact ? "mt-3.5" : "mt-6"}>
           <a
             href={hero.link}
@@ -115,6 +102,25 @@ function HeroCopy({ hero, compact = false }) {
             "
           >
             {hero.buttonText}
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+        </div>
+      ) : (
+        <div className={compact ? "mt-3.5" : "mt-6"}>
+          <a
+            href="/clinics"
+            className="
+              group inline-flex items-center justify-center gap-2
+              rounded-xl bg-clinic-500 px-5 py-2.5
+              text-[13px] font-semibold text-white shadow-clinic
+              md:py-3.5
+              transition-all duration-300
+              hover:-translate-y-0.5 hover:bg-clinic-600 hover:shadow-lg
+              focus:outline-none focus:ring-2 focus:ring-clinic-300 focus:ring-offset-2
+              md:px-7 md:text-base
+            "
+          >
+            Explore Clinics
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
         </div>
@@ -250,11 +256,26 @@ export default function Hero({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const slides = heroes
+  const fallbackSlide = {
+    _id: "default-hero-slide",
+    title: "Only Medicine",
+    eyebrow: "Only Medicine • No Therapy • No Exercise",
+    subtitle: "Dedicated medical care providing results through medication alone, with zero therapy and zero exercise.",
+    image: HERO_FALLBACK,
+    mobileImage: HERO_FALLBACK,
+    link: "/clinics",
+    buttonText: "Explore Clinics",
+    placement: "home_hero",
+    isActive: true,
+  };
+
+  const rawSlides = heroes
     .filter(
       (hero) => hero?.placement === "home_hero" && hero?.isActive === true,
     )
     .sort((a, b) => (a?.order || 0) - (b?.order || 0));
+
+  const slides = rawSlides.length ? rawSlides : [fallbackSlide];
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -265,8 +286,6 @@ export default function Hero({
 
     return () => clearInterval(interval);
   }, [slides.length]);
-
-  if (!slides.length) return null;
 
   const hero = slides[activeIndex];
 

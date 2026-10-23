@@ -31,7 +31,7 @@ export default async function DoctorPage({ params }) {
     <div className="container grid gap-8 py-8 lg:grid-cols-[1fr_360px]">
       <div>
         <nav className="mb-5 text-xs text-muted-foreground">
-          <Link href="/" className="hover:underline">Home</Link> › <Link href="/doctors" className="hover:underline">Find Doctors</Link> › <span className="text-ink">{doctor.name}</span>
+          <Link href="/" className="hover:underline">Home</Link> › <Link href="/doctors" className="hover:underline">Diseases</Link> › <span className="text-ink">{doctor.name}</span>
         </nav>
 
         <div className="soft-card relative overflow-hidden p-6">

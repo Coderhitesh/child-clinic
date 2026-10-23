@@ -4,7 +4,7 @@ import AuthProvider from '@/components/providers/auth-provider';
 
 export const metadata = {
   title: {
-    default: 'Normal Child Clinic — Better care, brighter future',
+    default: 'Normal Child Clinic — Life for hopeless children',
     template: '%s · Normal Child Clinic',
   },
   icons: { icon: '/favicon.png', apple: '/images/logo.png' },

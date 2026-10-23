@@ -1,14 +1,15 @@
 import Link from 'next/link';
-import {   ArrowRight,
+import {
+  ArrowRight,
   Clock3,
   MapPin,
   Navigation,
   Phone,
-  Star, } from 'lucide-react';
+  Star,
+} from 'lucide-react';
 import { cn, inr, initials } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import DoctorPhoto from '@/components/ui/doctor-photo';
-
 
 import {
   getClinicAddress,
@@ -216,29 +217,39 @@ export function ClinicCard({ clinic }) {
         {/* ==================================================
             ACTIONS FOOTER
         ================================================== */}
-        <div className="mt-auto grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
-          {clinic.mapLink ? (
-            <a
-              href={clinic.mapLink}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-9 items-center justify-center gap-1 rounded-xl border border-slate-200 text-xs font-semibold text-blue-700 transition-colors hover:border-blue-200 hover:bg-blue-50"
+        <div className="mt-auto flex flex-col gap-2 border-t border-slate-100 pt-3">
+          <div className="grid grid-cols-2 gap-2">
+            {clinic.mapLink ? (
+              <a
+                href={clinic.mapLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-9 items-center justify-center gap-1 rounded-xl border border-slate-200 text-xs font-semibold text-blue-700 transition-colors hover:border-blue-200 hover:bg-blue-50"
+              >
+                <Navigation className="h-3.5 w-3.5" />
+                Directions
+              </a>
+            ) : (
+              <span className="inline-flex h-9 items-center justify-center gap-1 rounded-xl border border-slate-100 text-xs font-medium text-slate-400 cursor-not-allowed">
+                <Navigation className="h-3.5 w-3.5" />
+                Directions
+              </span>
+            )}
+
+            <Link
+              href={bookHref}
+              className="inline-flex h-9 items-center justify-center gap-1 rounded-xl bg-[#ff5574] text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#ee4162]"
             >
-              <Navigation className="h-3.5 w-3.5" />
-              Directions
-            </a>
-          ) : (
-            <span className="inline-flex h-9 items-center justify-center gap-1 rounded-xl border border-slate-100 text-xs font-medium text-slate-400 cursor-not-allowed">
-              <Navigation className="h-3.5 w-3.5" />
-              Directions
-            </span>
-          )}
+              Book
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
 
           <Link
-            href={bookHref}
-            className="inline-flex h-9 items-center justify-center gap-1 rounded-xl bg-[#ff5574] text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#ee4162]"
+            href={href}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50/70 text-xs font-semibold text-[#0C3177] transition-all hover:bg-blue-100/80 hover:text-blue-700"
           >
-            Book
+            Clinic Details
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -247,6 +258,7 @@ export function ClinicCard({ clinic }) {
     </div>
   );
 }
+
 export function StatStrip({ items }) {
   return (
     <div className="container -mt-8 relative z-10">

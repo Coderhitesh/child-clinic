@@ -1,6 +1,5 @@
 import Image from "next/image";
 import {
-  Stethoscope,
   Building2,
   CalendarDays,
   ClipboardCheck,
@@ -10,10 +9,10 @@ import {
 const steps = [
   {
     number: "1",
-    title: "Choose a speciality",
-    description: "Select the care you need",
-    extra: "Pediatrics • Vaccination • Development",
-    icon: Stethoscope,
+    title: "Pick a clinic",
+    description: "Find a nearby location",
+    extra: "Multiple locations • Easy access",
+    icon: Building2,
     accent: "#3973F6",
     circle: "bg-[#EAF2FF]",
     tag: "bg-[#E9F1FF] text-[#3973F6]",
@@ -21,17 +20,6 @@ const steps = [
   },
   {
     number: "2",
-    title: "Pick a clinic",
-    description: "Find a nearby location",
-    extra: "Multiple locations • Easy access",
-    icon: Building2,
-    accent: "#FF3D91",
-    circle: "bg-[#FFF0F7]",
-    tag: "bg-[#FFF0F7] text-[#E93D8F]",
-    border: "border-[#FFD7E8]",
-  },
-  {
-    number: "3",
     title: "Pick a Date & Time",
     description: "Select your suitable date and time",
     extra: "Flexible slots • Minimal wait time",
@@ -42,7 +30,7 @@ const steps = [
     border: "border-[#D1F1E6]",
   },
   {
-    number: "4",
+    number: "3",
     title: "Confirm booking",
     description: "Pay at the clinic during your visit",
     extra: "Quick & secure • Instant confirmation",
@@ -140,8 +128,8 @@ export default function HowClinicWorks() {
             Healthy Children, Happier Tomorrows ♡
           </div>
 
-          {/* STEPS */}
-          <div className="relative z-20 mt-5 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
+          {/* STEPS - 3 STEPS GRID */}
+          <div className="relative z-20 mt-5 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-3 sm:gap-4 xl:grid-cols-3">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
@@ -152,8 +140,8 @@ export default function HowClinicWorks() {
                     border bg-white/90 p-4 backdrop-blur-sm
                     transition-all duration-300
                     hover:-translate-y-1 hover:bg-white hover:shadow-[0_12px_28px_rgba(31,73,136,0.10)]
-                    sm:min-h-[200px] sm:p-4
-                    lg:p-5
+                    sm:min-h-[200px] sm:p-5
+                    lg:p-6
                     ${step.border}
                   `}
                 >
@@ -194,7 +182,7 @@ export default function HowClinicWorks() {
 
                   {/* Desktop arrows */}
                   {index < steps.length - 1 && (
-                    <CurvedArrow className="absolute -right-[44px] -top-[20px] z-30 hidden h-[36px] w-[78px] xl:block" />
+                    <CurvedArrow className="absolute -right-[32px] -top-[16px] z-30 hidden h-[36px] w-[68px] xl:block" />
                   )}
 
                   {/* Mobile next indicator */}
@@ -225,7 +213,7 @@ export default function HowClinicWorks() {
             </div>
           </div>
 
-          {/* CHILD IMAGE — only on very large screens, scales with viewport instead of a fixed box */}
+          {/* CHILD IMAGE — only on very large screens */}
           <div className="pointer-events-none absolute bottom-0 right-0 z-10 hidden h-[85%] w-[35%] max-w-[460px] 2xl:block">
             <div className="absolute -bottom-16 -right-16 h-[380px] w-[380px] rounded-full bg-[#D8E9FF]/70" />
             <Image

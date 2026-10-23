@@ -38,15 +38,15 @@ const features = [
     border: "border-[#D0F0E7]",
     arrowBg: "bg-[#DDF8F0]",
   },
-  {
-    title: "Digital prescriptions",
-    description: "Records available in your account",
-    icon: FileText,
-    accent: "#7548EB",
-    iconBg: "bg-[#F1EBFF]",
-    border: "border-[#DED3FF]",
-    arrowBg: "bg-[#EBE4FF]",
-  },
+  // {
+  //   title: "Digital prescriptions",
+  //   description: "Records available in your account",
+  //   icon: FileText,
+  //   accent: "#7548EB",
+  //   iconBg: "bg-[#F1EBFF]",
+  //   border: "border-[#DED3FF]",
+  //   arrowBg: "bg-[#EBE4FF]",
+  // },
 ];
 
 const stats = [
@@ -144,7 +144,7 @@ export default function WhyFamiliesChooseUs() {
                 </div>
 
                 {/* FEATURE CARDS */}
-                <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-4 xl:mt-6">
+                <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-3 xl:mt-6">
                   {features.map(({ title, description, icon: Icon, accent, iconBg, border, arrowBg }) => (
                     <div
                       key={title}

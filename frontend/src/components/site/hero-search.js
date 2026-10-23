@@ -4,9 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Search,
-  Stethoscope,
   MapPin,
-  UserRound,
   CalendarDays,
 } from "lucide-react";
 
@@ -30,25 +28,20 @@ export default function HeroSearch({
   const router = useRouter();
 
   const [clinic, setClinic] = useState("");
-  const [speciality, setSpeciality] = useState("");
-  const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
 
   const search = () => {
     const qs = new URLSearchParams();
     if (date) qs.set("date", date);
 
-    if (doctor) {
+    if (clinic) {
       const query = qs.toString();
-      router.push(query ? `/doctors/${doctor}?${query}` : `/doctors/${doctor}`);
+      router.push(query ? `/clinics/${clinic}?${query}` : `/clinics/${clinic}`);
       return;
     }
 
-    if (speciality) qs.set("speciality", speciality);
-    if (clinic) qs.set("clinic", clinic);
-
     const query = qs.toString();
-    router.push(query ? `/doctors?${query}` : "/doctors");
+    router.push(query ? `/clinics?${query}` : "/clinics");
   };
 
   return (
@@ -59,13 +52,13 @@ export default function HeroSearch({
 
       <div className="relative inline-block">
         <h2 className="text-2xl font-extrabold tracking-tight text-ink md:text-[28px]">
-          Find a Pediatrician
+          Find an Autism &amp; Brain Expert Doctor
         </h2>
 
         {/* little spark accent */}
         <svg
           viewBox="0 0 40 40"
-          className="pointer-events-none absolute -right-9 top-0 hidden h-7 w-7 text-clinic-500 md:block"
+          className="pointer-events-none absolute right-11 -top-2 hidden h-7 w-7 text-clinic-500 md:block"
         >
           <path
             d="M36 20H26M32 9l-7 7M32 31l-7-7"
@@ -93,36 +86,6 @@ export default function HeroSearch({
             emptyLabel="Choose a location"
             placeholder="Choose a location"
             options={clinics.map((item) => ({
-              value: item._id,
-              label: item.name,
-            }))}
-            className={selectCls}
-          />
-        </SearchField>
-
-        <SearchField icon={Stethoscope}>
-          <SimpleSelect
-            value={speciality}
-            onChange={setSpeciality}
-            allowEmpty
-            emptyLabel="Choose a speciality"
-            placeholder="Choose a speciality"
-            options={specialities.map((item) => ({
-              value: item._id,
-              label: item.name,
-            }))}
-            className={selectCls}
-          />
-        </SearchField>
-
-        <SearchField icon={UserRound}>
-          <SimpleSelect
-            value={doctor}
-            onChange={setDoctor}
-            allowEmpty
-            emptyLabel="Any doctor"
-            placeholder="Any doctor"
-            options={doctors.map((item) => ({
               value: item._id,
               label: item.name,
             }))}
@@ -162,7 +125,7 @@ export default function HeroSearch({
         "
       >
         <Search className="mr-2 h-[18px] w-[18px]" />
-        Search Doctor
+        Search Clinic
       </Button>
     </div>
   );

@@ -127,7 +127,7 @@ export const getClinicTiming = (clinic) => {
 export const getClinicHref = (clinic) => {
   if (!clinic) return "/clinics";
 
-  return `/clinics/${clinic.slug || clinic._id}`;
+  return `/clinics/${clinic._id || clinic.slug}`;
 };
 
 export const getClinicSpecialities = (
@@ -138,7 +138,7 @@ export const getClinicSpecialities = (
     clinic?.specialities
   )
     ? clinic.specialities
-    : [];
+  : [];
 
   return specialities
     .map(getSpecialityName)
@@ -154,7 +154,7 @@ export const getRemainingSpecialitiesCount = (
     clinic?.specialities
   )
     ? clinic.specialities.length
-    : 0;
+  : 0;
 
   return Math.max(total - limit, 0);
 };

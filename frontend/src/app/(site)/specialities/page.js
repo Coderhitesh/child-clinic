@@ -13,7 +13,7 @@ export default async function SpecialitiesPage() {
         <div className="container py-10">
           <h1 className="text-3xl font-extrabold md:text-4xl">Care for every stage of life</h1>
           <p className="mt-2 max-w-[60ch] text-sm text-ink-soft">
-            Choose a speciality to see the doctors and clinics that cover it.
+            Explore our medical specialities to see the clinics that cover them.
           </p>
         </div>
       </section>

@@ -69,16 +69,6 @@ const whyItems = [
     border: "border-[#D0F0E7]",
     tagCls: "bg-[#E9F9F4] text-[#329878]",
   },
-  {
-    title: "Digital prescriptions",
-    description: "Records available in your account",
-    tag: "Always with you",
-    icon: FileText,
-    accent: "#7548EB",
-    iconBg: "bg-[#F1EBFF]",
-    border: "border-[#DED3FF]",
-    tagCls: "bg-[#F0EBFF] text-[#6E46DF]",
-  },
 ];
 
 export default async function HomePage() {
@@ -239,7 +229,7 @@ export default async function HomePage() {
             </div>
 
             {/* cards */}
-            <div className="relative z-20 mt-5 grid grid-cols-1 gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+            <div className="relative z-20 mt-5 grid grid-cols-1 gap-3 sm:mt-6 sm:grid-cols-3 sm:gap-4 lg:grid-cols-3">
               {whyItems.map(
                 (
                   {

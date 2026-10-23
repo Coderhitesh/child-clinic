@@ -3,16 +3,16 @@ import { Facebook, Instagram, Youtube, Linkedin, Twitter } from 'lucide-react';
 import Logo from './logo';
 
 const QUICK = [
-  ['Home', '/'], ['Find Doctors', '/doctors'], ['Our Clinics', '/clinics'],
+  ['Home', '/'], ['Diseases', '/doctors'], ['Our Clinics', '/clinics'],
   ['Specialities', '/specialities'], ['About Us', '/about'], ['Contact', '/contact'],
 ];
 const SERVICES = [
-  ['Consultations', '/specialities'], ['Find a Doctor', '/doctors'], ['Book Appointment', '/book'],
-  ['Health Tips', '/blogs'], ['Digital Prescriptions', '/dashboard/prescriptions'], ['Video Guidance', '/dashboard/videos'],
+  ['Consultations', '/specialities'], ['Book Appointment', '/book'],
+  ['Health Tips', '/blogs'], ['Video Guidance', '/dashboard/videos'],
 ];
 const SUPPORT = [
   ['Help Center', '/contact'], ['Privacy Policy', '/p/privacy-policy'], ['Terms & Conditions', '/p/terms-conditions'],
-  ['Refund Policy', '/p/refund-policy'], ['FAQs', '/faqs'],
+  ['FAQs', '/faqs'],
 ];
 
 export default function SiteFooter({ settings }) {
@@ -46,12 +46,6 @@ export default function SiteFooter({ settings }) {
             {s.contactEmail && <li><a href={`mailto:${s.contactEmail}`}>{s.contactEmail}</a></li>}
             {s.address && <li className="max-w-[220px]">{s.address}</li>}
           </ul>
-          {/* {(s.playStoreUrl || s.appStoreUrl) && (
-            <div className="mt-5 flex flex-col gap-2">
-              {s.appStoreUrl && <a href={s.appStoreUrl} className="rounded-lg border border-white/25 px-3 py-2 text-xs">Download on the App Store</a>}
-              {s.playStoreUrl && <a href={s.playStoreUrl} className="rounded-lg border border-white/25 px-3 py-2 text-xs">Get it on Google Play</a>}
-            </div>
-          )} */}
         </div>
       </div>
 
