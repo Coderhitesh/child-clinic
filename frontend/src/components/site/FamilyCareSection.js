@@ -39,7 +39,7 @@ const familyServices = [
 
 export function FamilyCareSection() {
   return (
-    <section className="container relative overflow-visible py-6 md:py-10">
+    <section className="container relative overflow-hidden xl:overflow-visible py-6 md:py-10">
 
       {/* =====================================================
           DECORATIVE HANDWRITTEN TEXTS

@@ -59,7 +59,7 @@ export function DoctorCard({ doctor, compact = false }) {
   const spec = doctor.speciality?.name || 'General';
   return (
     <div className="soft-card group flex gap-4 p-4 transition-shadow hover:shadow-md">
-      <DoctorAvatar name={doctor.name} photo={doctor.photo} className="h-20 w-20 shrink-0 rounded-xl" />
+      <DoctorAvatar name={doctor.name} photo={doctor.photo} className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl" />
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">

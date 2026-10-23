@@ -7,7 +7,7 @@ export default function FloatingButtons() {
   const telUrl = `tel:${phone}`;
 
   return (
-    <aside aria-label="Quick contact" className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 pointer-events-none">
+    <aside aria-label="Quick contact" className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-2.5 sm:gap-3 pointer-events-none">
       {/* WhatsApp Button */}
       <a
         href={whatsappUrl}
@@ -17,7 +17,7 @@ export default function FloatingButtons() {
         className="pointer-events-auto group flex items-center gap-2 rounded-full bg-[#25D366] text-white p-3 sm:px-4 sm:py-2.5 shadow-[0_4px_16px_rgba(37,211,102,0.4)] transition-all duration-300 hover:scale-105 hover:bg-[#20ba5a] hover:shadow-[0_6px_20px_rgba(37,211,102,0.5)] active:scale-95"
       >
         <svg
-          className="h-6 w-6 fill-current shrink-0"
+          className="h-5 w-5 sm:h-6 sm:w-6 fill-current shrink-0"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -32,10 +32,9 @@ export default function FloatingButtons() {
         aria-label="Call 7398162200"
         className="pointer-events-auto group flex items-center gap-2 rounded-full bg-[#3973F6] text-white p-3 sm:px-4 sm:py-2.5 shadow-[0_4px_16px_rgba(57,115,246,0.4)] transition-all duration-300 hover:scale-105 hover:bg-[#2863e6] hover:shadow-[0_6px_20px_rgba(57,115,246,0.5)] active:scale-95"
       >
-        <Phone className="h-6 w-6 shrink-0" strokeWidth={2.2} />
+        <Phone className="h-5 w-5 sm:h-6 sm:w-6 shrink-0" strokeWidth={2.2} />
         <span className="hidden sm:inline-block font-semibold text-xs tracking-wide">Call Now</span>
       </a>
     </aside>
   );
 }
-

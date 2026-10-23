@@ -109,7 +109,7 @@ export default async function HomePage() {
       <SiteSpeciality specialities={specialities} />
 
       {/* Clinics */}
-      <section className="section container relative overflow-visible">
+      <section className="section container relative overflow-hidden xl:overflow-visible">
         <SectionHead
           title="Our clinics near you"
           sub="Same great care at every location"
@@ -123,7 +123,7 @@ export default async function HomePage() {
           left="-130px"
           rotate={-10}
           color="#4F8DF7"
-          size={23}
+          size={23} className="hidden xl:block"
         />
 
         {/* Right top */}
@@ -132,7 +132,7 @@ export default async function HomePage() {
           top="40px"
           right="-110px"
           rotate={8}
-          color="#F06292"
+          color="#F06292" className="hidden xl:block"
           size={22}
         />
 
@@ -143,7 +143,7 @@ export default async function HomePage() {
           right="-140px"
           rotate={10}
           color="#4F8DF7"
-          size={24}
+          size={24} className="hidden xl:block"
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

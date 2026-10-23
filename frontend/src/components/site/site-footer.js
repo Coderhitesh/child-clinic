@@ -20,7 +20,7 @@ export default function SiteFooter({ settings }) {
   const social = s.socialLinks || {};
   return (
     <footer className="footer-wash mt-16 text-white/80">
-      <div className="container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-5">
+      <div className="container grid gap-8 sm:gap-10 py-10 sm:py-14 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         <div className="lg:col-span-1">
           <Logo dark settings={settings} />
           <p className="mt-4 max-w-[220px] text-sm">

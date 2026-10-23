@@ -51,7 +51,7 @@ export default function HeroSearch({
       ================================================== */}
 
       <div className="relative inline-block">
-        <h2 className="text-2xl font-extrabold tracking-tight text-ink md:text-[28px]">
+        <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-ink md:text-[28px]">
           Find an Autism &amp; Brain Expert Doctor
         </h2>
 

@@ -77,7 +77,7 @@ export default function SiteHeader({ settings, cities = [], clinicPoints = [] })
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-white/95 backdrop-blur">
-      <div className="container flex h-[72px] items-center gap-3 lg:gap-4">
+      <div className="container flex h-[68px] sm:h-[72px] items-center gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4">
         <Logo settings={settings} />
 
         <nav className="ml-2 lg:ml-4 hidden flex-1 items-center gap-1 xl:gap-1.5 lg:flex">
@@ -98,7 +98,7 @@ export default function SiteHeader({ settings, cities = [], clinicPoints = [] })
           })}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
           {/* Mobile phone link */}
           <a
             href="tel:7398162200"

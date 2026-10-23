@@ -36,7 +36,7 @@ export default async function DoctorPage({ params }) {
 
         <div className="soft-card relative overflow-hidden p-6">
           <div className="flex flex-col gap-6 sm:flex-row">
-            <DoctorAvatar name={doctor.name} photo={doctor.photo} className="h-40 w-40 shrink-0 rounded-2xl" />
+            <DoctorAvatar name={doctor.name} photo={doctor.photo} className="mx-auto sm:mx-0 h-36 w-36 sm:h-40 sm:w-40 shrink-0 rounded-2xl" />
             <div className="min-w-0 flex-1">
               <h1 className="flex items-center gap-2 text-2xl font-extrabold">
                 {doctor.name}

@@ -29,7 +29,7 @@ export default async function ContactPage() {
                 <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-600" /><a href={`tel:${settings.contactPhone}`}>{settings.contactPhone}</a></li>
               )}
               {settings?.contactEmail && (
-                <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand-600" /><a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a></li>
+                <li className="flex items-center gap-2"><Mail className="h-4 w-4 shrink-0 text-brand-600" /><a href={`mailto:${settings.contactEmail}`} className="break-all">{settings.contactEmail}</a></li>
               )}
               {settings?.address && (
                 <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 text-brand-600" />{settings.address}</li>

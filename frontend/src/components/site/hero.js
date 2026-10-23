@@ -135,7 +135,7 @@ function HeroCopy({ hero, compact = false }) {
 
 function TrustRow({ className = "" }) {
   return (
-    <div className={`flex flex-wrap items-center gap-x-6 gap-y-4 ${className}`}>
+    <div className={`grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-4 ${className}`}>
       <TrustItem
         icon={CalendarCheck}
         label="Instant Booking"
@@ -303,7 +303,7 @@ export default function Hero({
       ================================================== */}
 
       <div className="lg:hidden">
-        <div className="relative h-[300px] overflow-hidden">
+        <div className="relative min-h-[310px] sm:h-[330px] overflow-hidden">
           {/* image slider */}
           {slides.map((slide, index) => (
             <img
@@ -324,7 +324,7 @@ export default function Hero({
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface-soft via-surface-soft/80 to-transparent" />
 
           {/* copy */}
-          <div className="container relative z-10 flex h-[300px] flex-col justify-center py-6">
+          <div className="container relative z-10 flex min-h-[310px] sm:h-[330px] flex-col justify-center py-5 sm:py-6">
             <HeroCopy hero={hero} compact />
           </div>
 
