@@ -82,7 +82,7 @@ const SiteSpeciality = ({
               md:text-5xl
             "
           >
-            Find Care by{" "}
+            Our{" "}
             <span className="text-clinic-500">
               Speciality
             </span>

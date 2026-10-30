@@ -1009,7 +1009,7 @@
                 "url": "{{baseUrl}}/banners",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"title\": \"Book your checkup today\",\n  \"image\": \"https://via.placeholder.com/1600x600\",\n  \"link\": \"/book-appointment\",\n  \"buttonText\": \"Book Now\",\n  \"placement\": \"home_hero\",\n  \"order\": 1\n}"
+                  "raw": "{\n  \"title\": \"Book your checkup today\",\n  \"image\": \"https://via.placeholder.com/1600x600\",\n  \"link\": \"/book-appointment\",\n  \"buttonText\": \"Book Nowww\",\n  \"placement\": \"home_hero\",\n  \"order\": 1\n}"
                 }
               }
             },

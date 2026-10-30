@@ -187,7 +187,7 @@ export default function WhyFamiliesChooseUs() {
                 <div className="absolute right-[-80px] top-[125px] h-[200px] w-[200px] rounded-full bg-pink-100/70" />
 
                 <Image
-                  src="/images/why-families-doctor-child.png"
+                  src="/images/why-families-choose-us.png"
                   alt="Doctor with a happy child"
                   fill
                   priority={false}

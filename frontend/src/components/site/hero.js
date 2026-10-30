@@ -64,7 +64,7 @@ function HeroCopy({ hero, compact = false }) {
           ${
             compact
               ? "max-w-[280px] text-[24px] sm:max-w-[340px] sm:text-[28px]"
-              : "max-w-[560px] text-[44px] lg:text-[52px]"
+              : "max-w-[560px] text-[35px] lg:text-[45px]"
           }
         `}
       >

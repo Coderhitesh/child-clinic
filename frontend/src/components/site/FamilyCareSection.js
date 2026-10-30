@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Baby,
-  HeartPulse,
-  ShieldPlus,
+  MessageCircle,
+  Brain,
+  Accessibility,
   UsersRound,
 } from "lucide-react";
 import DecorativeText from "../ui/DecorativeText";
@@ -12,27 +12,27 @@ import DecorativeText from "../ui/DecorativeText";
 
 const familyServices = [
   {
-    title: "Child healthcare",
-    description: "Growth, vaccination & more",
-    icon: Baby,
+    title: "Speech Delay",
+    description: "Support for speech & language development",
+    icon: MessageCircle,
     iconClass: "bg-blue-50 text-blue-600",
   },
   {
-    title: "Women's health",
-    description: "Prenatal care & wellness",
-    icon: HeartPulse,
+    title: "Autism & ADHD",
+    description: "Specialized care & developmental support",
+    icon: Brain,
     iconClass: "bg-pink-50 text-pink-500",
   },
   {
-    title: "Preventive care",
-    description: "Stay healthy, stay ahead",
-    icon: ShieldPlus,
+    title: "Cerebral Palsy",
+    description: "Comprehensive care & rehabilitation support",
+    icon: Accessibility,
     iconClass: "bg-emerald-50 text-emerald-600",
   },
   {
-    title: "Chronic care",
-    description: "Long-term management",
-    icon: UsersRound,
+    title: "Epilepsy / Seizure",
+    description: "Diagnosis, treatment & seizure management",
+    icon: Accessibility,
     iconClass: "bg-violet-50 text-violet-600",
   },
 ];
@@ -105,14 +105,14 @@ export function FamilyCareSection() {
             </span>
 
             <h2 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 sm:text-3xl lg:text-[32px]">
-              Comprehensive care for every member of your family
+              Comprehensive treatment for every matter of your children
             </h2>
 
-            <p className="mt-2.5 max-w-md text-xs leading-relaxed text-gray-600 sm:text-sm">
+            {/* <p className="mt-2.5 max-w-md text-xs leading-relaxed text-gray-600 sm:text-sm">
               From routine checkups to specialized treatment, our
               clinics look after children, parents and grandparents
               under one roof.
-            </p>
+            </p> */}
 
             <Link
               href="/specialities"
@@ -132,7 +132,7 @@ export function FamilyCareSection() {
 
             <div className="absolute -bottom-8 h-[290px] w-[280px]">
               <Image
-                src="/images/family-care-doctor-child.png"
+                src="/images/liittle-kid-with-orange-dress.png"
                 alt="Doctor caring for a child"
                 fill
                 className="object-contain object-bottom drop-shadow-md"

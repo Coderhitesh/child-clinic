@@ -112,7 +112,7 @@ export default async function HomePage() {
       <section className="section container relative overflow-hidden xl:overflow-visible">
         <SectionHead
           title="Our clinics near you"
-          sub="Same great care at every location"
+          sub="Same great treatment at every location"
           href="/clinics"
         />
 
@@ -148,7 +148,7 @@ export default async function HomePage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* nearest to the visitor first, then by distance */}
-          <NearbyClinics clinics={clinics} limit={4} />
+          <NearbyClinics clinics={clinics} limit={5} />
 
           {!clinics.length && <EmptyLine text="No clinics published yet." />}
         </div>
