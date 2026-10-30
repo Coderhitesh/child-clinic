@@ -35,6 +35,8 @@ import { FamilyCareSection } from "@/components/site/FamilyCareSection";
 import DecorativeText from "@/components/ui/DecorativeText";
 import HowClinicWorks from "@/components/site/HowClinicWorks";
 import WhyFamiliesChooseUs from "@/components/site/WhyFamiliesChooseUs";
+import ImageGallery from "@/components/site/ImageGallery";
+import VideGallery from "@/components/site/VideoGallery";
 
 export const revalidate = 120;
 
@@ -123,7 +125,8 @@ export default async function HomePage() {
           left="-130px"
           rotate={-10}
           color="#4F8DF7"
-          size={23} className="hidden xl:block"
+          size={23}
+          className="hidden xl:block"
         />
 
         {/* Right top */}
@@ -132,7 +135,8 @@ export default async function HomePage() {
           top="40px"
           right="-110px"
           rotate={8}
-          color="#F06292" className="hidden xl:block"
+          color="#F06292"
+          className="hidden xl:block"
           size={22}
         />
 
@@ -143,7 +147,8 @@ export default async function HomePage() {
           right="-140px"
           rotate={10}
           color="#4F8DF7"
-          size={24} className="hidden xl:block"
+          size={24}
+          className="hidden xl:block"
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -524,6 +529,11 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+      {/* Image Gallery */}
+      <ImageGallery />
+
+      {/* Video Gallery */}
+      <VideGallery />
 
       {/* Partners */}
       {partners.length > 0 && (

@@ -135,16 +135,16 @@ export default function WhyFamiliesChooseUs() {
                 <div className="relative mx-auto mt-5 h-[210px] max-w-[320px] xl:hidden">
                   <div className="absolute bottom-4 left-1/2 h-[175px] w-[260px] -translate-x-1/2 rounded-[45%_55%_50%_50%] bg-gradient-to-br from-[#CDE5FF] to-[#EAF4FF]" />
                   <Image
-                    src="/images/why-families-doctor-child.png"
+                    src="/images/why-families-choose-us.png"
                     alt="Doctor caring for a happy child"
                     fill
                     className="relative z-10 object-contain object-bottom"
-                    sizes="320px"
+                    sizes="350px"
                   />
                 </div>
 
                 {/* FEATURE CARDS */}
-                <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-3 xl:mt-6">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-3 xl:mt-6">
                   {features.map(({ title, description, icon: Icon, accent, iconBg, border, arrowBg }) => (
                     <div
                       key={title}
